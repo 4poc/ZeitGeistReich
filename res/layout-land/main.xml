@@ -20,6 +20,11 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" >
+        
+    <CheckBox android:id="@+id/AnnounceCheckbox"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/announce_checkbox_text" />
     
     <TextView
         android:id="@+id/TagEditText"

@@ -4,6 +4,7 @@
     <string name="app_name">ZeitGeistReich</string>
     <string name="preview_text">preview of the image</string>
     <string name="tag_edit_text">Tags:</string>
+    <string name="announce_checkbox_text">announce in irc</string>
     <string name="submit">Submit</string>
 
 </resources>

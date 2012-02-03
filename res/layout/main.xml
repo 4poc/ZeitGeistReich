@@ -15,6 +15,11 @@
         android:maxWidth="200dp"
         android:src="@drawable/zeitgeist" />
 
+    <CheckBox android:id="@+id/AnnounceCheckbox"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/announce_checkbox_text" />
+
     <TextView
         android:id="@+id/TagEditText"
         android:layout_width="fill_parent"

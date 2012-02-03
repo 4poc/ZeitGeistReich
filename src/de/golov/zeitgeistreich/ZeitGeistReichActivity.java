@@ -32,6 +32,7 @@ import android.provider.MediaStore.Images.ImageColumns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Toast;
@@ -51,10 +52,12 @@ public class ZeitGeistReichActivity extends Activity {
 	private class ZeitGeistObject {
 		public File image;
 		public String tags;
+		public boolean announce;
 
-		public ZeitGeistObject(File image, String tags) {
+		public ZeitGeistObject(File image, String tags, boolean announce) {
 			this.image = image;
 			this.tags = tags;
+			this.announce = announce;
 		}
 	}
 
@@ -90,6 +93,7 @@ public class ZeitGeistReichActivity extends Activity {
 					mpEntity.addPart("image_upload", cbFile);
 					StringBody tags = new StringBody(file.tags);
 					mpEntity.addPart("tags", tags);
+					mpEntity.addPart("announce", new StringBody(file.announce ? "true" : "false"));
 					httppost.setEntity(mpEntity);
 					httpclient.execute(httppost);
 				} catch (Exception e) {
@@ -148,16 +152,18 @@ public class ZeitGeistReichActivity extends Activity {
 		final MultiAutoCompleteTextView textView = (MultiAutoCompleteTextView) findViewById(R.id.TagEditView);
 		textView.setAdapter(adapter);
 		textView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+		
+		final CheckBox announceCheckbox = (CheckBox) findViewById(R.id.AnnounceCheckbox);
 
 		final Button button = (Button) findViewById(R.id.ZeitgeistSubmit);
 		button.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				submitImage(textView.getText().toString());
+				submitImage(textView.getText().toString(), announceCheckbox.isChecked());
 			}
 		});
 	}
 
-	protected void submitImage(String tags) {
+	protected void submitImage(String tags, boolean announce) {
 		Intent intent = getIntent();
 		Bundle extras = intent.getExtras();
 		Uri mImageUri = null;
@@ -173,7 +179,7 @@ public class ZeitGeistReichActivity extends Activity {
 					cursor.close();
 					if (mFilename != null) {
 						ZeitGeistReichUploaderTask task = new ZeitGeistReichUploaderTask();
-						ZeitGeistObject o = new ZeitGeistObject(mFilename, tags);
+						ZeitGeistObject o = new ZeitGeistObject(mFilename, tags, announce);
 						task.execute(o);
 					}
 				}
